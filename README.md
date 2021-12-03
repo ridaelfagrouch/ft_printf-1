@@ -1,4 +1,6 @@
-# Quick explanation of the original `printf`
+# Knowledge needed to recode the *42 Network* version of `printf()` 
+
+**Note:** I'll only be covering the required stuff to do
 
 ## The syntax for a format placeholder
 
@@ -12,7 +14,7 @@ _This is a POSIX extension and not in C99_
 
 The Parameter field takes as input the index of the parameter _aka_ the `n`th parameter _(or 'the `n`th **argument**', whatever you want to call it)_ followed by a `$` Dollar sign. After that we can apply some flags just as we would do normally.
 
-**\*Note** that the index should always start from `1` and not `0`\*.
+_**Note** that the index should always start from `1` and not `0`_.
 
 Once you specify a parameter field for one parameter, you should do the same with all the other parameters, i.e. you can't just have 5 parameters, apply the "Parameter field" _(aka `n$`)_ to, e.g., the _4th_ element, leave the others without indexing, and expect `printf()` to just magically figure out which flag should point to which parameter, it's either **All of them** or **None of them**.
 
@@ -58,7 +60,7 @@ file.c:5:26: error: missing $ operand number in format
 
 ### The `-` flag
 
-- When used, the content becomes Left-Justified _(instead of the default Right-Justification)_.
+When used, the content becomes Left-Justified _(instead of the default Right-Justification)_.
 
 - **_Example:_**
 
@@ -67,7 +69,9 @@ file.c:5:26: error: missing $ operand number in format
 
 int main(void)
 {
-    printf("\"%12s\"\n", "Hello");
+	printf("Without the '-' flag:\n");
+    printf("\"%12s\"\n\n", "Hello");
+    printf("Without the '-' flag:\n");
     printf("\"%-12s\"\n", "Hello");
     return (0);
 }
@@ -76,7 +80,10 @@ int main(void)
 ```text
 Output:
 
+Without the '-' flag:
 "       Hello"
+
+With the '-' flag:
 "Hello       "
 ```
 
@@ -84,7 +91,7 @@ _We will later see what the number `12` means in this case._
 
 ### The `+` flag
 
-- When used _(with integers)_, it'll prepend a `+` sign if the integer is positive, or a `-` sign if it's negative; As oppose to the default behaviour where the `+` sign is omitted in case the integer is positive.
+When used _(with signed-numeric types)_, it'll prepend a `+` sign if the integer is positive, or a `-` sign if it's negative; As oppose to the default behaviour where the `+` sign is omitted in case the integer is positive.
 
 - **_Example:_**
 
@@ -93,10 +100,10 @@ _We will later see what the number `12` means in this case._
 
 int main(void)
 {
-    printf("Without the '+' sign:\n");
+    printf("Without the '+' flag:\n");
     printf("%d\n", 69);
-    printf("%d\n", -69);
-    printf("With the '+' sign:\n");
+    printf("%d\n\n", -69);
+    printf("With the '+' flag:\n");
     printf("%+d\n", 69);
     printf("%+d\n", -69);
     return (0);
@@ -106,17 +113,18 @@ int main(void)
 ```text
 Output:
 
-Without the '+' sign:
+Without the '+' flag:
 69
 -69
-With the '+' sign:
+
+With the '+' flag:
 +69
 -69
 ```
 
-### The `` _(space)_ flag
+### The ` ` _(space)_ flag
 
-- When used _(with integers)_, it'll prepend a `` *(space character)* if the integer is positive, or a `-` sign if it's negative. It's behaviour is quite similar to the `+` flag, exept that it prepends a `` instead of a `+`.
+When used _(with signed-numeric types)_, it'll prepend a ` ` *(space character)* if the integer is positive, or a `-` sign if it's negative. It's behaviour is quite similar to the `+` flag, exept that it prepends a ` ` instead of a `+`.
 
 - **_Example:_**
 
@@ -125,10 +133,10 @@ With the '+' sign:
 
 int main(void)
 {
-    printf("Without the '+' sign:\n");
+    printf("Without the ' ' (space character) flag:\n");
     printf("%d\n", 420);
-    printf("%d\n", -420);
-    printf("With the '+' sign:\n");
+    printf("%d\n\n", -420);
+    printf("With the ' ' (space character) flag:\n");
     printf("% d\n", 420);
     printf("% d\n", -420);
     return (0);
@@ -138,100 +146,147 @@ int main(void)
 ```text
 Output:
 
-Without the ' ' (space character):
+Without the ' ' (space character) flag:
 420
 -420
-With the ' ' (space character):
+
+With the ' ' (space character) flag:
  420
 -420
 ```
+_**Remember:** this flag is ignored if the `+` flag exists._
 
 ### The `0` flag
 
-- **_Example:_**
-
-```c
-
-```
-
-### The `#` flag
+When used with the `%d` _or_ `%i` _or_ `%x` _or_ `%X`, and with the **Width** flag _(we'll get to that later on)_, it replaces the default blank spaces for numeric types with _`0`'s_.
 
 - **_Example:_**
-
-```c
-
-```
-
-### The `.` flag
-
-- **_Example:_**
-
-```c
-
-```
-
-### Precision field
-
-## Mandatory Flags _(`%c`, `%s`, `%p`, `%d`, `%i`, `%u`, `%x`, `%X`, `%%`)_
-
-### The `%c` flag _(character)_
-
-The `%c` flag indicates that the argument will be a single character _aka_ a `char`, it's really that simple.
-
-### The `%s` flag _(string of characters)_
-
-The `%s` flag indicates that the argument will be a string of characters _aka_ a `char *`.
-**\*Note** that the string should be NULL-terminated.\*
-
-### The `%p` flag _(pointer)_
-
-The `%p` flag indicates that the argument will be a pointer _aka_ a `void *` _(pointer to any data type)_, the output should be the address to which that pointer points to, printed .
-
-### The `%d` flag _(decimal number aka **base10 integer**)_
-
-The `%d` flag indicates that the argument will be of type `signed int` _(positive AND negative integers)_ and with a **base10** _(0, 1, 2, ..., 9)_
-
-- **Example**
 
 ```c
 #include <stdio.h>
 
 int main(void)
 {
-    int num = 9;
-
-    printf("%d\n", num);
+	printf("Without the '0' flag:\n");
+    printf("\"%5d\"\n\n", 1);
+    printf("With the '0' flag:\n");
+    printf("\"%05d\"\n", 1);
     return (0);
 }
 ```
 
 ```text
 Output:
-9
 
+Without the '0' flag:
+"    1"
+
+With the '0' flag:
+"00001"
 ```
 
-### The `%i` flag
+_**Remember** the `0` flag is ignored if precision is specified for an integer or if the `-` flag is specified._
 
-The `%i` flag is similar to the `%d` flag when it's used in `printf()`, but they do differ when used in the `scanf()` function, let's look at these differences:
+### The `#` flag
 
-- The `%d` always assumes that the input is in **base10**.
-- The `%i` automatically detects the **base** of the integer, and converts it's value to _decimal_ aka **base10**.
+When used with the `%x` _or_ `%X` formats, it prefixes the output with a `0x` _or a_ `0X` respectively, i.e. it adds either a `0x` at the beginning of the output given by the `%x` formats, or a `0X` at the beginning of the output given by the `%X`.
 
-**\*Remember** we are not trying to recode `scanf()`, so don't mix up the use cases, of the above-mentioned flags, for each function\*.
+- **_Example:_**
 
-### The `%u` flag
+```c
+#include <stdio.h>
 
-### The `%x` flag
+int main(void)
+{
+	printf("Without the '#' flag:\n");
+    printf("%x\n", 180);
+    printf("%X\n\n", 180);
+    printf("With the '#' flag:\n");
+    printf("%#x\n", 180);
+    printf("%#X\n", 180);
+    return (0);
+}
+```
 
-### The `%X` flag
+```text
+Output:
 
-### The `%%` flag
+Without the '#' flag:
+b4
+B4
 
-## Bonus Flags _(`-`, `0`, `.`, `#`, ``space,`+`)_
+With the '#' flag:
+0xb4
+0XB4
+```
+_The `#` flag should not be used with `c` or `d` or `i` or `u` or `s` types._
 
-### Some more flags _(`%f`, `%o`, `%`)_
+### Width field
 
-# Notes for me
+It's basicaly a non-negative decimal number that represents the minimum number of bytes to be printed. If the number of bytes in the output value is less than the specified width, blanks are added on the _Right_ _(or to the Left if the `-` flag is specified)_.
 
-1. Parameters should be indexed, starting with 1 _(not 0)_. That should pave the way for the "Parameter selecting" —type of flags— implementation, where we put the index of the parameter followed by a `$` sign to indicate that we want to select the `n`th parameter
+Width never causes a value to be truncated; if the number of bytes in the output value is greater than the specified width, or width is not given, all characters of the value are printed.
+
+The width specification can be an asterisk `*`, in which case an argument —from the argument list— supplies the value. The width argument must precede the value being formatted in the argument list.
+
+- **Example:**
+
+```c
+int main(void)
+{
+	printf("Without the Width:\n");
+    printf("\"%d\"\n\n", 69420);
+    printf("With the Width:\n");
+    printf("\"%10d\"\n\n", 69420);
+    printf("With the Width:\n");
+    printf("\"%-10d\"\n\n", 69420);
+    printf("With the Width:\n");
+    printf("\"%5d\"\n\n", 69420);
+    printf("With the Width:\n");
+    printf("\"%*d\"\n", 15, 69420);
+    return (0);
+}
+```
+
+```text
+Output:
+
+Without the Width:
+"69420"
+
+With the Width:
+"     69420"
+
+With the Width:
+"69420     "
+
+With the Width:
+"69420"
+
+With the Width:
+"          69420"
+```
+
+### Precision field
+
+
+___
+
+## Sources
+
+- Wikipedia: https://en.wikipedia.org/wiki/Printf_format_string
+
+- IBM's Docs: https://www.ibm.com/docs/en/i/7.4?topic=functions-printf-print-formatted-characters
+
+- Other random websites:
+
+  - https://www.lix.polytechnique.fr/~liberti/public/computing/prog/c/C/FUNCTIONS/format.html
+
+  - https://flylib.com/books/en/2.254.1/using_flags_in_the_printf_format_string.html
+
+  - https://www.codingunit.com/printf-format-specifiers-format-conversions-and-formatted-output
+
+  - https://alvinalexander.com/programming/printf-format-cheat-sheet/
+
+___
+
