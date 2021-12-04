@@ -1,6 +1,8 @@
-# Knowledge needed to recode the *42 Network* version of `printf()` 
+[![mnaimi's 42Project Score](https://badge42.herokuapp.com/api/project/mnaimi/printf)](https://github.com/JaeSeoKim/badge42)
 
-**Note:** I'll only be covering the required stuff to do
+# *42 Network* version of `printf()` 
+
+_**Note:** I won't be covering everything about the original `printf()`, just the stuff we need to know to recode the *42 Network* version._
 
 ## The syntax for a format placeholder
 
@@ -122,9 +124,9 @@ With the '+' flag:
 -69
 ```
 
-### The ` ` _(space)_ flag
+### The '&emsp;' _(space character)_ flag
 
-When used _(with signed-numeric types)_, it'll prepend a ` ` *(space character)* if the integer is positive, or a `-` sign if it's negative. It's behaviour is quite similar to the `+` flag, exept that it prepends a ` ` instead of a `+`.
+When used _(with signed-numeric types)_, it'll prepend a '&emsp;' *(space character)* if the integer is positive, or a `-` sign if it's negative. It's behaviour is quite similar to the `+` flag, exept that it prepends a '&emsp;' instead of a `+`.
 
 - **_Example:_**
 
@@ -269,24 +271,35 @@ With the Width:
 
 ### Precision field
 
+The **Precision field** can be described as the opposite of what the _Width field_ does, while the latter specifies the minimum number of bytes to be printed, the _Precision field_ specifies the maximum number of bytes to be printed; another thing is that  the _Width field_ doesn't truncate the output in any case, the _Precision field_ does in case the original length of the output exceeds the maximum specified length in the _Precision field_.
 
+The Precision specification can be an asterisk `*`, in which case an argument —from the argument list— supplies the value. The Precision argument must precede the value being formatted in the argument list.
+
+In our case, the precision will only be applied to `%s`, `%d` and `%i`. If the specified width exceeds the total length of the string, the string gets printed, and that's all, no spaces, and no `0`'s. If it's applied to a digit _(`%d` or `%i`)_, and the specified length exceeds the total length of the digits in the given number, the rest is filled with `0`'s, but if it's the opposite, and the specified length is smaller than the total length of the number, it doesn't get truncated.
+
+_**Note** that the precision field doesn't work for `%c`, and that it outputs a warning —but does work— when used with `%p`, _
+- **Example:**
+
+```c
+
+```
 ___
 
 ## Sources
 
-- Wikipedia: https://en.wikipedia.org/wiki/Printf_format_string
+Wikipedia: https://en.wikipedia.org/wiki/Printf_format_string
 
-- IBM's Docs: https://www.ibm.com/docs/en/i/7.4?topic=functions-printf-print-formatted-characters
+IBM's Docs: https://www.ibm.com/docs/en/i/7.4?topic=functions-printf-print-formatted-characters
 
-- Other random websites:
+Other random websites:
 
-  - https://www.lix.polytechnique.fr/~liberti/public/computing/prog/c/C/FUNCTIONS/format.html
+- <a href="https://www.lix.polytechnique.fr/~liberti/public/computing/prog/c/C/FUNCTIONS/format.html" target="_blank">https://www.lix.polytechnique.fr/~liberti/public/computing/prog/c/C/FUNCTIONS/format.html</a>
 
-  - https://flylib.com/books/en/2.254.1/using_flags_in_the_printf_format_string.html
+- <a href="https://flylib.com/books/en/2.254.1/using_flags_in_the_printf_format_string.html" target="_blank">https://flylib.com/books/en/2.254.1/using_flags_in_the_printf_format_string.html</a>
 
-  - https://www.codingunit.com/printf-format-specifiers-format-conversions-and-formatted-output
+- <a href="https://www.codingunit.com/printf-format-specifiers-format-conversions-and-formatted-output" target="_blank">https://www.codingunit.com/printf-format-specifiers-format-conversions-and-formatted-output</a>
 
-  - https://alvinalexander.com/programming/printf-format-cheat-sheet/
+- <a href="https://alvinalexander.com/programming/printf-format-cheat-sheet/" target="_blank">https://alvinalexander.com/programming/printf-format-cheat-sheet/</a>
 
 ___
 
